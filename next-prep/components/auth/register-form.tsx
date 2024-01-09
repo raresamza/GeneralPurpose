@@ -12,8 +12,8 @@ import { RegisterSchema } from "@/schemas"
 import { Input } from "../ui/input"
 import { Form, FormControl, FormItem, FormMessage, FormLabel, FormField } from "../ui/form"
 import { Button } from "../ui/button"
-import { FromError } from "../form-error"
-import { FormSuccess } from "../form-succes"
+import { FormError } from "../form-error"
+import { FormSuccess } from "../form-success"
 import { startTransition, useState, useTransition } from "react"
 import { register } from "@/actions/register"
 
@@ -96,7 +96,7 @@ export const RegisterForm = () => {
               </FormItem>
             )} />
           </div>
-          <FromError message={error} />
+          <FormError message={error} />
           <FormSuccess message={success} />
           <Button type="submit" className="w-full" disabled={isPending}>
             Create an account

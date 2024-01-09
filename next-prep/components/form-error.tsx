@@ -5,7 +5,7 @@ interface FormErrorProps {
 }
 
 
-export const FromError = ({ message }: FormErrorProps) => {
+export const FormError = ({ message }: FormErrorProps) => {
 
   if (!message) return null
   return (

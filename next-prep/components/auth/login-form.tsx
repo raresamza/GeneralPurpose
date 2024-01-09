@@ -6,16 +6,18 @@
 import { CardWrapper } from "./card-wrapper"
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
+import { useSearchParams } from "next/navigation"
 import * as z from "zod"
 
 import { LoginSchema } from "@/schemas"
 import { Input } from "../ui/input"
 import { Form, FormControl, FormItem, FormMessage, FormLabel, FormField } from "../ui/form"
 import { Button } from "../ui/button"
-import { FromError } from "../form-error"
-import { FormSuccess } from "../form-succes"
+import { FormError } from "../form-error"
+import { FormSuccess } from "../form-success"
 import { login } from "@/actions/login"
 import { startTransition, useState, useTransition } from "react"
+import Link from "next/link"
 
 export const LoginForm = () => {
 
@@ -23,6 +25,8 @@ export const LoginForm = () => {
 	const [isPending,setIsPending]=useTransition();
 	const [error,setError]=useState<string | undefined>("");
 	const [success,setSuccess]=useState<string | undefined>("");
+	const searchParams=useSearchParams()
+	const urlError=searchParams.get("error") === "OAuthAccountNotLinked" ?"Email already in use with different provider" : ""
 
 	const form = useForm<z.infer<typeof LoginSchema>>({
 		resolver: zodResolver(LoginSchema),
@@ -40,8 +44,8 @@ export const LoginForm = () => {
 
 		setIsPending(()=> {
 		login(values).then ( (data)=> {
-			setError(data.error)
-			setSuccess(data.success)
+			setError(data?.error)
+			setSuccess(data?.success)
 		})
 	})
 	}
@@ -79,11 +83,15 @@ export const LoginForm = () => {
 										disabled={isPending}
 									/>
 								</FormControl>
+								<Button size="sm" variant="link" asChild className="px-0 font-normal">
+									<Link href="/auth/reset">Forgot Password?</Link>
+									
+								</Button>
 								<FormMessage />
 							</FormItem>
 						)} />
 					</div>
-					<FromError message={error}/>
+					<FormError message={error || urlError}/>
 					<FormSuccess message={success}/>
 					<Button type="submit" className="w-full" disabled={isPending}>
 						Login
