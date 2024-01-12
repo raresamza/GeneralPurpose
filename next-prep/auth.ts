@@ -5,7 +5,7 @@ import { db } from "@/lib/db"
 import authConfig from "@/auth.config"
 import { getUserByID } from "./data/user"
 import { UserRole } from "@prisma/client"
-
+import { getTwoFactorConfirmationByUserId } from "./data/two-factor-confirmation"
 
 
 export const {
@@ -35,6 +35,14 @@ export const {
       const existingUser = await getUserByID(user.id)
       if (!existingUser?.emailVerified) {
         return false
+      }
+      if(existingUser.isTwoFactorEnabled===true) {
+        const twoFactorConfirmation= await getTwoFactorConfirmationByUserId(existingUser.id)
+        if(!twoFactorConfirmation) {
+          return false
+        }
+        await db.twoFactorConfirmation.delete({
+          where:{id: twoFactorConfirmation.id}})
       }
 
       return true
