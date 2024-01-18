@@ -18,6 +18,9 @@ export const SettingsSchema = z.object({
   }
 
   return true
+
+
+  console.log("Sadwadewasd")
 }, {
   message: "New passowrd is required",
   path: ["newPassword"]
