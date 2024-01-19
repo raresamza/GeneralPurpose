@@ -8,7 +8,7 @@ export const sendTwoFactorTokenEmail = async (email:string, token:string) => {
 
 
     await resend.emails.send( {
-        from:"oboarding@resend.dev",
+        from:"mail@rares-dev.com",
         to:email,
         subject:"2FA Code",
         html:`<p>Your 2FA Code is: ${token} </p>`
@@ -20,7 +20,7 @@ export const sendVerificationPasswordResetEmail = async (email:string, token:str
 
 
     await resend.emails.send( {
-        from:"oboarding@resend.dev",
+        from:"mail@rares-dev.com",
         to:email,
         subject:"Confirm you password reset request",
         html:`<p>Click <a href="${resetLink}">here</a> to reset your password </p>`
@@ -33,7 +33,7 @@ export const sendVerificationEmail = async (email:string, token:string) => {
 
 
     await resend.emails.send( {
-        from:"oboarding@resend.dev",
+        from:"mail@rares-dev.com",
         to:email,
         subject:"Confirm you email",
         html:`<p>Click <a href="${confirmLink}">here</a> to confirm your email </p>`
